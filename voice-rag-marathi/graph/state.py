@@ -1,0 +1,1 @@
+# State dataclass definition placeholder
