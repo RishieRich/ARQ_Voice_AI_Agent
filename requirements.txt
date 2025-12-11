@@ -1,0 +1,25 @@
+# --- Core app & UI ---
+streamlit
+
+# --- LLM / Agents stack ---
+langchain
+langchain-community
+langgraph
+langsmith
+
+# --- RAG / vector store ---
+chromadb
+sentence-transformers
+pypdf
+
+# --- Speech-to-text (STT) ---
+faster-whisper
+
+# --- Text-to-speech (TTS) & audio utils ---
+torch
+torchaudio
+transformers
+soundfile
+
+# --- Config / misc ---
+python-dotenv
