@@ -2,6 +2,7 @@
 streamlit
 
 # --- LLM / Agents stack ---
+langchain-text-splitters
 langchain
 langchain-community
 langgraph
