@@ -18,8 +18,10 @@ WAV_PATH = "mic_input.wav"
 # Whisper model sizes: tiny/base/small/medium
 WHISPER_SIZE = "small"
 
-def record_audio():
-    print(f"\n🎙️ Recording for {DURATION_SEC} seconds... Speak now (Marathi/English).")
+
+def record_audio() -> None:
+    """Record microphone audio for a fixed duration and save it to a wav file."""
+    print(f"\nRecording for {DURATION_SEC} seconds... Speak now (Marathi/English).")
     audio = sd.rec(
         int(DURATION_SEC * SAMPLE_RATE),
         samplerate=SAMPLE_RATE,
@@ -28,16 +30,18 @@ def record_audio():
     )
     sd.wait()
     sf.write(WAV_PATH, audio, SAMPLE_RATE)
-    print(f"✅ Saved audio: {WAV_PATH}")
+    print(f"Saved audio: {WAV_PATH}")
+
 
 def stt_transcribe() -> str:
-    print("🧠 Loading Whisper (first run downloads weights)...")
+    """Load Whisper, transcribe the recorded audio, and return the transcript text."""
+    print("Loading Whisper (first run downloads weights)...")
     model = WhisperModel(WHISPER_SIZE, device="cpu", compute_type="int8")
 
-    print("🔎 Transcribing...")
+    print("Transcribing...")
     segments, info = model.transcribe(
         WAV_PATH,
-        language=None,      # auto-detect, supports Marathi+English
+        language=None,  # auto-detect, supports Marathi+English
         vad_filter=True,
     )
 
@@ -51,8 +55,10 @@ def stt_transcribe() -> str:
 
     return text
 
-def main():
-    print("\n=== Voice → STT → RAG → Marathi Answer (Terminal) ===")
+
+def main() -> None:
+    """CLI loop: record audio, transcribe, then answer via RAG in Marathi."""
+    print("\n=== Voice STT -> RAG -> Marathi Answer (Terminal) ===")
     print("Pre-req: Knowledge base must already be built (Chroma store exists).")
     print("Tip: Ask questions that are answerable from your uploaded PDFs.\n")
 
@@ -67,13 +73,13 @@ def main():
             query_text = stt_transcribe()
 
             if not query_text:
-                print("⚠️ No speech detected. Try again.\n")
+                print("No speech detected. Try again.\n")
                 continue
 
-            print("🧩 Running RAG (answer will be in Marathi)...")
+            print("Running RAG (answer will be in Marathi)...")
             answer = answer_question_marathi(query_text)
 
-            print("\n✅ Marathi Answer:")
+            print("\nMarathi Answer:")
             print(answer)
             print("\n============================================\n")
 
@@ -81,9 +87,10 @@ def main():
             print("\nStopped by user.")
             break
         except Exception as e:
-            print("\n❌ ERROR:", e)
+            print("\nERROR:", e)
             print("If this is KB-related, ensure you built the vector store from PDFs first.\n")
             break
+
 
 if __name__ == "__main__":
     main()

@@ -8,7 +8,6 @@ from langchain_community.embeddings import HuggingFaceEmbeddings
 
 from voice_rag.config.settings import settings
 
-
 # Text splitter for PDF pages
 TEXT_SPLITTER = RecursiveCharacterTextSplitter(
     chunk_size=1000,
@@ -16,12 +15,12 @@ TEXT_SPLITTER = RecursiveCharacterTextSplitter(
     separators=["\n\n", "\n", ".", "?", "!", " ", ""],
 )
 
-
-# lazy global embeddings so we don’t reload model each call
+# Lazy global embeddings so we don't reload model each call
 _embeddings: HuggingFaceEmbeddings | None = None
 
 
 def get_embeddings() -> HuggingFaceEmbeddings:
+    """Load and cache the embedding model to avoid repeated downloads."""
     global _embeddings
     if _embeddings is None:
         _embeddings = HuggingFaceEmbeddings(
@@ -32,6 +31,7 @@ def get_embeddings() -> HuggingFaceEmbeddings:
 
 
 def load_and_split_pdfs(pdf_paths: Iterable[Path]):
+    """Load PDFs and return a list of split LangChain documents."""
     docs = []
     for pdf_path in pdf_paths:
         loader = PyPDFLoader(str(pdf_path))
@@ -42,6 +42,7 @@ def load_and_split_pdfs(pdf_paths: Iterable[Path]):
 
 
 def build_vector_store_from_pdfs(pdf_paths: Iterable[Path]) -> Chroma:
+    """Build and persist a Chroma vector store from the given PDF files."""
     docs = load_and_split_pdfs(pdf_paths)
     embeddings = get_embeddings()
 
@@ -56,6 +57,7 @@ def build_vector_store_from_pdfs(pdf_paths: Iterable[Path]) -> Chroma:
 
 
 def load_existing_vector_store() -> Chroma:
+    """Load a previously persisted Chroma store."""
     embeddings = get_embeddings()
     return Chroma(
         embedding_function=embeddings,

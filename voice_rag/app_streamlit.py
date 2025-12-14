@@ -37,6 +37,7 @@ st.markdown(
 # Helper utilities
 # -----------------------------
 def save_uploaded_pdfs(uploaded_files) -> List[Path]:
+    """Persist uploaded PDF files to the local data directory."""
     saved = []
     for uf in uploaded_files:
         dest = PDF_DIR / uf.name
@@ -47,9 +48,7 @@ def save_uploaded_pdfs(uploaded_files) -> List[Path]:
 
 
 def kb_exists() -> bool:
-    """
-    Lightweight check: if Chroma dir has any files, assume KB exists.
-    """
+    """Lightweight check: if Chroma dir has any files, assume KB exists."""
     from voice_rag.config.settings import settings
 
     return settings.chroma_dir.exists() and any(settings.chroma_dir.iterdir())

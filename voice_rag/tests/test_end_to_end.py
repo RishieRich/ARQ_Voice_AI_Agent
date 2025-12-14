@@ -5,6 +5,7 @@ from voice_rag.rag.ingest import build_vector_store_from_pdfs
 from voice_rag.rag.qa import answer_question_marathi
 
 def main():
+    """Minimal E2E run: build KB from a test PDF and ask a Marathi question."""
     pdf_path = PDF_DIR / "test.pdf"   # place a PDF with this name in voice_rag/data/pdfs
     print("Using PDF:", pdf_path)
 

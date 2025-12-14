@@ -7,6 +7,7 @@ from voice_rag.rag.ingest import load_existing_vector_store
 
 
 def get_llm() -> ChatOllama:
+    """Return the Ollama chat model configured for low-temperature answers."""
     return ChatOllama(
         model=settings.ollama_model,
         temperature=0.1,
@@ -33,6 +34,7 @@ RAG_PROMPT = PromptTemplate(
 
 
 def get_qa_chain() -> RetrievalQA:
+    """Create a RetrievalQA chain wired to the local Chroma store."""
     vectorstore = load_existing_vector_store()
     retriever = vectorstore.as_retriever(search_kwargs={"k": 4})
     llm = get_llm()
@@ -48,6 +50,7 @@ def get_qa_chain() -> RetrievalQA:
 
 
 def answer_question_marathi(question: str) -> str:
+    """Run the Marathi RAG pipeline and return the answer text."""
     qa = get_qa_chain()
     result = qa.invoke({"query": question})
     if isinstance(result, dict):
