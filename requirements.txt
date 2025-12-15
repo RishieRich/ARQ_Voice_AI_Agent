@@ -24,3 +24,4 @@ soundfile
 
 # --- Config / misc ---
 python-dotenv
+pandas
