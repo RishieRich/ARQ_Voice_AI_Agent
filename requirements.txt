@@ -1,27 +1,28 @@
 # --- Core app & UI ---
-streamlit
+streamlit  # Streamlit web UI for running the voice RAG demo
 
 # --- LLM / Agents stack ---
-langchain-text-splitters
-langchain
-langchain-community
-langgraph
-langsmith
+langchain-text-splitters  # Chunking utilities to split documents before embedding
+langchain  # Core orchestration primitives for prompts, tools, and chains
+langchain-community  # Community integrations (loaders, vector stores, embeddings)
+langgraph  # Graph/state-machine runner for multi-step agent workflows
+langsmith  # Tracing/observability for LangChain pipelines
 
 # --- RAG / vector store ---
-chromadb
-sentence-transformers
-pypdf
+chromadb  # Local vector database used as the default semantic store
+sentence-transformers  # Embedding models for indexing and retrieval
+pypdf  # PDF ingestion and text extraction for document loading
 
 # --- Speech-to-text (STT) ---
-faster-whisper
+faster-whisper  # Fast Whisper inference for microphone speech recognition
 
 # --- Text-to-speech (TTS) & audio utils ---
-torch
-torchaudio
-transformers
-soundfile
+torch  # Base tensor/ML runtime required by audio and model deps
+
+torchaudio  # Audio I/O utilities and feature extraction built on torch
+transformers  # Hugging Face models (e.g., TTS/vocoder pipelines)
+soundfile  # Read/write WAV/FLAC during audio capture and playback
 
 # --- Config / misc ---
-python-dotenv
-pandas
+python-dotenv  # Load environment variables from .env for local runs
+pandas  # Lightweight data handling (e.g., tabular exports, analyses)
